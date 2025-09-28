@@ -8,7 +8,9 @@ public class Main {
 
         Querys exec = new Querys(con.getJdbcTemplate());
 
-        exec.insereNome("Gui");
+        LeitorExcel exec1 = new LeitorExcel();
+
+        exec1.extrairAcoes("D:/instaladores/b3_stocks_1994_2020.xlsx");
 
 
     }
