@@ -10,7 +10,7 @@ public class ConexaoBanco {
 
     public ConexaoBanco() {
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/teste2");
+        basicDataSource.setUrl("jdbc:mysql://localhost:3306/smart_investment");
         basicDataSource.setUsername("PhoenixEye");
         basicDataSource.setPassword("Urubu100");
 
