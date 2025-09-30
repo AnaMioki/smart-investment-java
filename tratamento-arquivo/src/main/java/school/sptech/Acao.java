@@ -1,13 +1,13 @@
 package school.sptech;
 
 public class Acao {
-    String data;
-    String nome;
-    Double Abertura;
-    Double Fechamento;
-    Double Alta;
-    Double Baixa;
-    Double volume;
+    private String data;
+    private String nome;
+    private Double Abertura;
+    private Double Fechamento;
+    private Double Alta;
+    private Double Baixa;
+    private Double volume;
 
     public Acao(String data, String nome, Double abertura, Double fechamento, Double alta, Double baixa, Double volume) {
         this.data = data;

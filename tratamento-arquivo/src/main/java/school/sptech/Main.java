@@ -10,6 +10,7 @@ public class Main {
 
         LeitorExcel exec1 = new LeitorExcel();
         exec1.extrairAcoes("b3_stocks_1994_2020.xlsx");
+
     }
 
 }

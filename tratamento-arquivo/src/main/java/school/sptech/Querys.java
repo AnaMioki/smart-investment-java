@@ -29,24 +29,33 @@ public class Querys {
         System.out.println("\n\n Enviando dados ao banco:");
 
         System.out.println(list);
-        System.out.println(Date.parse(list.get(1).data));
+
+
 
         for(int i = 0; i< 10 ; i++ ) {
 
+            String data = list.get(i).getData();
+            Double abertura = list.get(i).getAbertura();
+            Double fechamento = list.get(i).getFechamento();
+            Double alta = list.get(i).getAlta();
+            Double baixa = list.get(i).getBaixa();
+            Double volume = list.get(i).getVolume();
+
+
             try {
                 jdbcTemplate.update("INSERT INTO acoes (dtAtual,precoAbertura,precoFechamento,precoMaisAlto,precoMaisBaixo,volume,fkEmpresa) " +
-                        "VALUES (?,?,?,?,?,?,?)", Date.parse(list.get(i).data), list.get(i).Abertura, list.get(i).Fechamento, list.get(i).Alta,list.get(i).Baixa,list.get(i).volume,1);
+                        "VALUES (?,?,?,?,?,?,?)", data, abertura, fechamento, alta,baixa,volume,1);
 
             } catch (Exception e) {
                 System.err.println(dataAtual + " - Erro ao realizar operação no banco!" );
-                System.err.println("Ação: " + list.get(i).nome);
+                System.err.println("Ação: " + list.get(i).getNome());
                 System.err.println("Processo número: " + i);
                 System.err.println("Mensagem: " + e.getMessage());
 
                 return;
             }
 
-            System.out.println(dataAtual + " -  Operação concluída! Ação: " + list.get(i).nome);
+            System.out.println(dataAtual + " -  Operação concluída! Ação: " + list.get(i).getNome());
         }
         return;
     }

@@ -10,9 +10,9 @@ public class ConexaoBanco {
 
     public ConexaoBanco() {
         BasicDataSource basicDataSource = new BasicDataSource();
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/smart_investment");
-        basicDataSource.setUsername("PhoenixEye");
-        basicDataSource.setPassword("Urubu100");
+        basicDataSource.setUrl("jdbc:mysql://18.234.31.82:22:3306/smart_investment");
+        basicDataSource.setUsername("root");
+        basicDataSource.setPassword("urubu100");
 
         this.basicDataSource = basicDataSource;
         this.jdbcTemplate = new JdbcTemplate(basicDataSource);

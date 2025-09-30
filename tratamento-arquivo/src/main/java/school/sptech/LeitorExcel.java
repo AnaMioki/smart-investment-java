@@ -42,8 +42,8 @@ public class LeitorExcel {
                     String[] partes = conteudo.split(",");
 
 
-                        String data = partes[0];
-                        String nome = partes[1];
+                        String data = partes[0].toString();
+                        String nome = partes[1].toString();
                         Double abertura = Double.parseDouble(partes[2].replace(",", "."));
                         Double fechamento =Double.parseDouble(partes[3].replace(",", "."));
                         Double alta = Double.parseDouble(partes[4].replace(",", "."));
@@ -63,10 +63,10 @@ public class LeitorExcel {
                     return lista;
                 }
             }
-
         }catch (Exception e){
             System.err.println("Erro ao fazer a leitura dos arquivos " + dataAtual.format(formatter));
             System.err.println("Mensagem: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return lista;
@@ -79,5 +79,6 @@ public class LeitorExcel {
         ConexaoBanco con = new ConexaoBanco();
         Querys exec = new Querys(con.getJdbcTemplate());
         exec.insereNome(list);
+
     }
 }
