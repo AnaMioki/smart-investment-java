@@ -5,8 +5,8 @@ package school.sptech;
 public class Main {
     public static void main(String[] args) {
 
-        LeitorExcel exec1 = new LeitorExcel();
-        exec1.extrairAcoes("b3_stocks_1994_2020.xlsx");
+        LeitorExcel exec = new LeitorExcel();
+       exec.extrairAcoes("b3_stocks_1994_2020.xlsx");
 
 
     }
