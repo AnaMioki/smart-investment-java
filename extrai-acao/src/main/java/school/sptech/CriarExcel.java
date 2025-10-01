@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CriarExcel {
 
-    private static final String fileName = "./ListaAcao.xls";
+    private  String fileName = "../ListaAcao.xls";
 
     public void criarExcel(List<Acao> lista) {
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -27,13 +27,22 @@ public class CriarExcel {
             cellNome.setCellValue(acao.getNome());
         }
 
-        try (FileOutputStream out = new FileOutputStream(new File(CriarExcel.fileName))) {
+        try (FileOutputStream out = new FileOutputStream(new File(this.fileName))) {
             workbook.write(out);
             workbook.close();
             System.out.println("Arquivo Excel criado com sucesso!");
+            fazerTratamento(this.fileName);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro ao criar/editar o arquivo!");
         }
     }
+
+    public void fazerTratamento(String nomeArquivo){
+        TratarExcel exec = new TratarExcel();
+        exec.tratamentoDados(nomeArquivo);
+        return;
+    }
+
+
 }
