@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -44,15 +45,32 @@ public class TratarExcel {
 
                 Resultado resultado = infos(token, conteudo);
 
-                Empresa execEmpresa = new Empresa();
+                Empresa empresa = resultado.getResults().get(0);
 
-                Cell cellNome=   row.createCell(1);
-                cellNome.setCellValue(resultado.getResults().get(0).getNome().replace(" ", "-"));
+                Cell cellNome = row.createCell(1);
+                Cell cellSetor = row.createCell(2);
+                Cell cellUrl = row.createCell(3);
+
+                cellNome.setCellValue(empresa.getNome());
+
+                cellSetor.setCellValue(
+                        (empresa.getSummaryProfile() != null && empresa.getSummaryProfile().getSector() != null)
+                                ? empresa.getSummaryProfile().getSector()
+                                : "Sem setor"
+                );
+
+                cellUrl.setCellValue(
+                        empresa.getUrlImagem() != null ? empresa.getUrlImagem() : "Sem imagem"
+                );
 
 
 
             }
-
+            FileOutputStream arquivoSaida = new FileOutputStream(nomeArquivo);
+            workbook.write(arquivoSaida);
+            arquivoSaida.close();
+            System.out.println("Processo de modificação terminado!");
+            return;
         }catch(Exception e){
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
             e.printStackTrace();
@@ -64,6 +82,8 @@ public class TratarExcel {
 
     public Resultado infos(String token, String ticker) {
         Resultado resultado = null;
+        System.out.println("Recebido: " + ticker);
+
         try {
             String url = "https://brapi.dev/api/quote/" + ticker
                     + "?token=" + token
@@ -74,27 +94,35 @@ public class TratarExcel {
                     .uri(URI.create(url))
                     .build();
 
-            HttpResponse<String> response = client.send(request,
-                    HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
             String json = response.body();
+
+            System.out.println("Resposta: " + ticker + " - " + json);
+
+
+            if (json.contains("\"error\":true")) {
+
+                json = "{ \"results\": [ { " +
+                        "\"shortName\": \"Empresa não encontrada\", " +
+                        "\"logourl\": \"Sem imagem\", " +
+                        "\"summaryProfile\": { \"sector\": \"Sem setor\" } " +
+                        "} ] }";
+            }
 
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
             resultado = objectMapper.readValue(json, Resultado.class);
 
-            System.out.println(resultado.getResults());
-
-            System.out.println("Nome: " + resultado.getResults().get(0).getNome().replace(" ", "-"));
-
-
         } catch (Exception e) {
+            System.err.println("Erro ao processar ticker: " + ticker);
             e.printStackTrace();
         }
 
         return resultado;
     }
+
 
 
 }
