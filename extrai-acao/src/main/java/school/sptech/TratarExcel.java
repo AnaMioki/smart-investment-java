@@ -69,7 +69,10 @@ public class TratarExcel {
             FileOutputStream arquivoSaida = new FileOutputStream(nomeArquivo);
             workbook.write(arquivoSaida);
             arquivoSaida.close();
-            System.out.println("Processo de modificação terminado!");
+            System.out.println("Processo de modificação terminado!" + LocalDateTime.now().format(formatter));
+
+
+
             return;
         }catch(Exception e){
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
