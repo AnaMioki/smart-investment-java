@@ -1,5 +1,6 @@
 package school.sptech;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDate;
@@ -32,8 +33,8 @@ public class Querys {
 
 
 
-        for(int i = 0; i< 10 ; i++ ) {
-
+        for(int i = 0; i< list.size() ; i++ ) {
+            String ticker = list.get(i).getTicker();
             String data = list.get(i).getData();
             Double abertura = list.get(i).getAbertura();
             Double fechamento = list.get(i).getFechamento();
@@ -43,19 +44,18 @@ public class Querys {
 
 
             try {
-                jdbcTemplate.update("INSERT INTO acoes (dtAtual,precoAbertura,precoFechamento,precoMaisAlto,precoMaisBaixo,volume,fkEmpresa) " +
-                        "VALUES (?,?,?,?,?,?,?)", data, abertura, fechamento, alta,baixa,volume,1);
+                jdbcTemplate.update("INSERT INTO acoes (dtAtual, precoAbertura, precoFechamento, precoMaisAlto, precoMaisBaixo, volume, fkEmpresa) " + "VALUES (?, ?, ?, ?, ?, ?,  (SELECT idEmpresa FROM empresa WHERE ticker = ?))", data, abertura, fechamento, alta, baixa, volume, ticker);
 
             } catch (Exception e) {
                 System.err.println(dataAtual + " - Erro ao realizar operação no banco!" );
-                System.err.println("Ação: " + list.get(i).getNome());
+                System.err.println("Ação: " + list.get(i).getTicker());
                 System.err.println("Processo número: " + i);
                 System.err.println("Mensagem: " + e.getMessage());
 
                 return;
             }
 
-            System.out.println(dataAtual + " -  Operação concluída! Ação: " + list.get(i).getNome());
+            System.out.println(dataAtual + " -  Operação concluída! Ação: " + list.get(i).getTicker());
         }
         return;
     }

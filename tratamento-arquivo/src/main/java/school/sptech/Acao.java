@@ -2,16 +2,16 @@ package school.sptech;
 
 public class Acao {
     private String data;
-    private String nome;
+    private String ticker;
     private Double Abertura;
     private Double Fechamento;
     private Double Alta;
     private Double Baixa;
     private Double volume;
 
-    public Acao(String data, String nome, Double abertura, Double fechamento, Double alta, Double baixa, Double volume) {
+    public Acao(String data, String ticker, Double abertura, Double fechamento, Double alta, Double baixa, Double volume) {
         this.data = data;
-        this.nome = nome;
+        this.ticker = ticker;
         Abertura = abertura;
         Fechamento = fechamento;
         Alta = alta;
@@ -30,12 +30,12 @@ public class Acao {
         this.data = data;
     }
 
-    public String getNome() {
-        return nome;
+    public String getTicker() {
+        return ticker;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
     public Double getAbertura() {
@@ -82,7 +82,7 @@ public class Acao {
     public String toString() {
         return "Acao{" +
                 "data='" + data + '\'' +
-                ", nome='" + nome + '\'' +
+                ", ticker='" + ticker + '\'' +
                 ", Abertura=" + Abertura +
                 ", Fechamento=" + Fechamento +
                 ", Alta=" + Alta +

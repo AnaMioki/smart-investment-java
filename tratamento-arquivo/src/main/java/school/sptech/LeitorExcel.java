@@ -43,14 +43,14 @@ public class LeitorExcel {
 
 
                         String data = partes[0].toString();
-                        String nome = partes[1].toString();
+                        String ticker = partes[1].toString().trim().replace(" ", "");
                         Double abertura = Double.parseDouble(partes[2].replace(",", "."));
                         Double fechamento =Double.parseDouble(partes[3].replace(",", "."));
                         Double alta = Double.parseDouble(partes[4].replace(",", "."));
                         Double baixa =Double.parseDouble(partes[5].replace(",", "."));
                         Double volume = Double.parseDouble(partes[6].replace(",", "."));
 
-                        Acao acao = new Acao(data, nome, abertura, fechamento, alta, baixa, volume);
+                        Acao acao = new Acao(data, ticker, abertura, fechamento, alta, baixa, volume);
                         lista.add(acao);
                         contador++;
 

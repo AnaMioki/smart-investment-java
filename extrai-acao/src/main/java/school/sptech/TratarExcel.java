@@ -35,7 +35,7 @@ public class TratarExcel {
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
-                if(row.getRowNum() == 0) continue;
+
 
                 Cell cell = row.getCell(0);
 
