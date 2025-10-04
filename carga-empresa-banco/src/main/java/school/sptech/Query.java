@@ -19,8 +19,10 @@ public class Query{
     }
 
     public void insereEmpresa(List<Empresa> list){
+        ConexaoBanco con = new ConexaoBanco();
+        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
         LocalDateTime dataAtual = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         dataAtual.format(formatter);
 
 
@@ -47,10 +49,17 @@ public class Query{
                 System.err.println("Processo número: " + i);
                 System.err.println("Mensagem: " + e.getMessage());
 
+
+                log.gardaLog("Erro", dataAtual.format(formatter),"Erro ao fazer ao guardar as empresa: " + list.get(i).getNome()+ "\n"+  e.getMessage());
+
                 return;
             }
             System.out.println(dataAtual + " -  Operação concluída! Ação: " + list.get(i).getNome());
         }
+
+        log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao carregar as empresas no banco de dados!");
+        System.out.println("Sucesso ao carregar as empresas no banco de dados!" + dataAtual.format(formatter));
+
     }
 
 }

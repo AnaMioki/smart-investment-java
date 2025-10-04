@@ -20,8 +20,11 @@ public class LeitorExcel {
 
 
     public List<Acao> extrairAcoes(String nomeArquivo) {
+        ConexaoBanco con = new ConexaoBanco();
+        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
+
         LocalDateTime dataAtual = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         dataAtual.format(formatter);
         List<Acao> lista = new ArrayList<>();
         Integer contador = 0;
@@ -58,17 +61,18 @@ public class LeitorExcel {
 
                 System.out.println("\n\nLendo linha " + row.getRowNum() + " " + dataAtual.format(formatter));
 
-                if (contador > 10) {
-                    conexaoBanco(lista);
-                    return lista;
-                }
+
             }
         }catch (Exception e){
             System.err.println("Erro ao fazer a leitura dos arquivos " + dataAtual.format(formatter));
             System.err.println("Mensagem: " + e.getMessage());
             e.printStackTrace();
+            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
         }
 
+        System.out.println("Sucesso ao ler as ações! Enviando ao banco de dados...");
+        log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao ler as ações! Enviando ao banco de dados...");
+        conexaoBanco(lista);
         return lista;
 
 

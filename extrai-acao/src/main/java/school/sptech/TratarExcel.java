@@ -26,7 +26,12 @@ public class TratarExcel {
 
 
     public void tratamentoDados(String nomeArquivo){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
+        LocalDateTime dataAtual = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        ConexaoBanco con = new ConexaoBanco();
+        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
+
         List<Empresa> lista = new ArrayList<>();
 
         try(InputStream arquivo = new FileInputStream(nomeArquivo);
@@ -70,13 +75,14 @@ public class TratarExcel {
             workbook.write(arquivoSaida);
             arquivoSaida.close();
             System.out.println("Processo de modificação terminado!" + LocalDateTime.now().format(formatter));
-
+            log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao modificar o arquivo!");
 
 
             return;
         }catch(Exception e){
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
             e.printStackTrace();
+            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
         }
 
 

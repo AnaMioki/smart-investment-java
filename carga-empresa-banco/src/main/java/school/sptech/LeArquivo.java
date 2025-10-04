@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -18,8 +19,10 @@ public class LeArquivo {
 
 
     public List<Empresa> extrairEmpresa(String nomeArquivo){
+        ConexaoBanco con = new ConexaoBanco();
+        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
         LocalDateTime dataAtual = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         dataAtual.format(formatter);
         List<Empresa> lista = new ArrayList<>();
 
@@ -38,7 +41,7 @@ public class LeArquivo {
                 Cell cellSetor = row.getCell(2);
                 Cell cellUrl = row.getCell(3);
 
-                if (cellNome != null /*&&*//* !cellNome.toString().equalsIgnoreCase("Empresa não encontrada")&& !cellNome.toString().trim().equalsIgnoreCase("")*/){
+                if (cellNome != null && !cellNome.toString().equalsIgnoreCase("Empresa não encontrada")&& !cellNome.toString().trim().equalsIgnoreCase("")){
                     String nome = cellNome.toString().trim();
                     String setor = cellSetor.toString();
                     String url = cellUrl.toString();
@@ -48,17 +51,18 @@ public class LeArquivo {
 
                 }
                 System.out.println("\n\nLendo linha " + row.getRowNum() + " " + dataAtual.format(formatter));
-            }
 
-            conexaoBanco(lista);
-            return lista;
+            }}catch(Exception e){
 
-
-        }catch(Exception e){
+            log.gardaLog("Erro", dataAtual.format(formatter),"Erro ao fazer a leitura dos arquivos: " + e.getMessage());
             System.err.println("Erro ao fazer a leitura dos arquivos " + dataAtual.format(formatter));
             System.err.println("Mensagem: " + e.getMessage());
             e.printStackTrace();
         }
+
+        System.out.println("Sucesso ao fazer a leitura dos arquivos!");
+        log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao fazer a leitura dos arquivos!");
+        conexaoBanco(lista);
         return lista;
     }
 

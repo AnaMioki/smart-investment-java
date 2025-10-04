@@ -11,6 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CriarExcel {
@@ -18,6 +20,11 @@ public class CriarExcel {
     private  String fileName = "../ListaAcao.xlsx";
 
     public void criarExcel(List<Acao> lista) {
+        ConexaoBanco con = new ConexaoBanco();
+        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
+
+        LocalDateTime dataAtual = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         XSSFWorkbook workbook = new XSSFWorkbook();
         Sheet sheetAcoes = workbook.createSheet("Ações");
 
@@ -34,10 +41,13 @@ public class CriarExcel {
             workbook.write(out);
             workbook.close();
             System.out.println("Arquivo Excel criado com sucesso!");
+            log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao criar o arquivo!");
+
             fazerTratamento(this.fileName);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro ao criar/editar o arquivo!");
+            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a criação do arquivo! \n" + e.getMessage());
         }
     }
 

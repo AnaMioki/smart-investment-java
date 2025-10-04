@@ -18,10 +18,13 @@ import java.util.Set;
 public class LeitorExcel {
 
     public List<Acao> extrairAcoes(String nomeArquivo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
-        LocalDateTime inicio = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dataAtual = LocalDateTime.now();
 
-        System.out.println("Iniciando a leitura do arquivo " + inicio.format(formatter));
+        ConexaoBanco con = new ConexaoBanco();
+        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
+
+        System.out.println("Iniciando a leitura do arquivo " + dataAtual.format(formatter));
 
         List<Acao> lista = new ArrayList<>();
         Set<String> nomesUnicos = new HashSet<>();
@@ -56,8 +59,11 @@ public class LeitorExcel {
         } catch (Exception e) {
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
             e.printStackTrace();
+            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
         }
 
+        System.out.println("Sucesso ao ler o arquivo!");
+        log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao ler o arquivo!");
         construirArquivo(lista);
         return lista;
     }
