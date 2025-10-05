@@ -2,6 +2,9 @@ package school.sptech;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TratarExcel {
-    private String token = "dbESckEYvyLTKmNAE9HL3v";
+    private String token = "5c949faa";
 
 
 
@@ -32,7 +35,7 @@ public class TratarExcel {
         ConexaoBanco con = new ConexaoBanco();
         GuardaLog log = new GuardaLog(con.getJdbcTemplate());
 
-        List<Empresa> lista = new ArrayList<>();
+
 
         try(InputStream arquivo = new FileInputStream(nomeArquivo);
             Workbook workbook = new XSSFWorkbook(arquivo)){
@@ -48,27 +51,27 @@ public class TratarExcel {
 
                 String conteudo = cell.toString();
 
-                Resultado resultado = infos(token, conteudo);
+                AcaoResumo resultado = infos(token, conteudo);
 
-                Empresa empresa = resultado.getResults().get(0);
+
 
                 Cell cellNome = row.createCell(1);
                 Cell cellSetor = row.createCell(2);
                 Cell cellUrl = row.createCell(3);
 
-                cellNome.setCellValue(empresa.getNome());
+                cellNome.setCellValue(resultado.getName());
 
                 cellSetor.setCellValue(
-                        (empresa.getSummaryProfile() != null && empresa.getSummaryProfile().getSector() != null)
-                                ? empresa.getSummaryProfile().getSector()
+                        (resultado.getSector() != null)
+                                ? resultado.getSector()
                                 : "Sem setor"
                 );
 
                 cellUrl.setCellValue(
-                        empresa.getUrlImagem() != null ? empresa.getUrlImagem() : "Sem imagem"
+                        (resultado.getLogo() != null && resultado.getLogo().getBig() != null)
+                                ? resultado.getLogo().getBig()
+                                : "Sem imagem"
                 );
-
-
 
             }
             FileOutputStream arquivoSaida = new FileOutputStream(nomeArquivo);
@@ -89,14 +92,14 @@ public class TratarExcel {
 
     }
 
-    public Resultado infos(String token, String ticker) {
-        Resultado resultado = null;
+    public AcaoResumo infos(String token, String ticker) {
+
         System.out.println("Recebido: " + ticker);
+        AcaoResumo acao = null;
 
         try {
-            String url = "https://brapi.dev/api/quote/" + ticker
-                    + "?token=" + token
-                    + "&modules=summaryProfile";
+            String url = "https://api.hgbrasil.com/finance/stock_price?key=" + token
+                    + "&symbol=" + ticker;
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -107,29 +110,32 @@ public class TratarExcel {
 
             String json = response.body();
 
-            System.out.println("Resposta: " + ticker + " - " + json);
-
+            Gson gson = new Gson();
+            System.out.println(json);
 
             if (json.contains("\"error\":true")) {
-
-                json = "{ \"results\": [ { " +
-                        "\"shortName\": \"Empresa não encontrada\", " +
-                        "\"logourl\": \"Sem imagem\", " +
-                        "\"summaryProfile\": { \"sector\": \"Sem setor\" } " +
-                        "} ] }";
+                json = "{ \"results\": { \"" + ticker + "\": { " +
+                        "\"name\": \"Empresa não encontrada\", " +
+                        "\"sector\": \"Sem setor\", " +
+                        "\"logo\": { \"big\": \"Sem imagem\" } " +
+                        "} } }";
             }
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+            System.out.println(json);
 
-            resultado = objectMapper.readValue(json, Resultado.class);
+            JsonObject root = JsonParser.parseString(json).getAsJsonObject();
+            JsonObject results = root.getAsJsonObject("results");
+            JsonObject acaoJson = results.getAsJsonObject(ticker);
+            acao = gson.fromJson(acaoJson,AcaoResumo.class );
+
+            return acao;
 
         } catch (Exception e) {
             System.err.println("Erro ao processar ticker: " + ticker);
             e.printStackTrace();
         }
 
-        return resultado;
+        return acao;
     }
 
 
