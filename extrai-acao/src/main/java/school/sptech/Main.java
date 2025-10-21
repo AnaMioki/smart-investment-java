@@ -6,6 +6,6 @@ public class Main {
     public static void main(String[] args) {
 
         LeitorExcel exec = new LeitorExcel();
-       exec.extrairAcoes("/home/ubuntu/proj/smart-investment-java/extrai-acao/src/main/resources/b3_stocks_1994_2020.xlsx");
+       exec.extrairAcoes("/home/ubuntu/proj/smart-investment-java/extrai-acao/b3_stocks_1994_2020.xlsx");
     }
 }
