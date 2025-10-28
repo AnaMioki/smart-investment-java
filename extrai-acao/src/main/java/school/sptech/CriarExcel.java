@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CriarExcel {
 
-    private  String fileName = "../ListaAcao.xlsx";
+    private  String fileName = "ListaAcao.xlsx";
 
     public void criarExcel(List<Acao> lista) {
         ConexaoBanco con = new ConexaoBanco();

@@ -2,11 +2,10 @@ package school.sptech;
 
 public class Main {
     public static void main(String[] args) {
+           ControladorS3 controller = new ControladorS3();
 
-        String nomeArquivo = "../ListaAcao.xlsx";
-        LeArquivo exec = new LeArquivo();
+           controller.baixarArquivos();
 
-        exec.extrairEmpresa(nomeArquivo);
 
     }
 }

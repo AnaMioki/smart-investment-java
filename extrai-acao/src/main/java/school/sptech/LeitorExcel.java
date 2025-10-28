@@ -59,8 +59,8 @@ public class LeitorExcel {
         } catch (Exception e) {
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
             e.printStackTrace();
-            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
-        }
+                log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
+            }
 
         System.out.println("Sucesso ao ler o arquivo!");
         log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao ler o arquivo!");

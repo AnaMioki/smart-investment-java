@@ -40,8 +40,14 @@ public class TratarExcel {
 
             Sheet sheet = workbook.getSheetAt(0);
 
+            System.out.println("Recebendo ações...");
+
             for (Row row : sheet) {
 
+
+                if(row.getRowNum() % 100 == 0){
+                    System.out.println("Recebendo ações: " + row.getRowNum());
+                }
 
                 Cell cell = row.getCell(0);
 
@@ -77,8 +83,8 @@ public class TratarExcel {
             arquivoSaida.close();
             System.out.println("Processo de modificação terminado!" + LocalDateTime.now().format(formatter));
             log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao modificar o arquivo!");
-
-
+            ControladorS3 controladorS3 = new ControladorS3();
+            controladorS3.subirNovoArquivo(nomeArquivo);
             return;
         }catch(Exception e){
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
@@ -109,7 +115,6 @@ public class TratarExcel {
             String json = response.body();
 
             Gson gson = new Gson();
-            System.out.println(json);
 
             if (json.contains("\"error\":true")) {
                 json = "{ \"results\": { \"" + ticker + "\": { " +
@@ -119,7 +124,7 @@ public class TratarExcel {
                         "} } }";
             }
 
-            System.out.println(json);
+
 
             JsonObject root = JsonParser.parseString(json).getAsJsonObject();
             JsonObject results = root.getAsJsonObject("results");
