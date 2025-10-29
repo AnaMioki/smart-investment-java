@@ -32,7 +32,7 @@ public class ControladorS3 {
         this.nomeObjeto = nomeObjeto;
     }
 
-    public void baixarArquivos(){
+    public void baixarArquivos() {
         LeitorExcel ler = new LeitorExcel();
         Boolean achou = false;
 
@@ -45,18 +45,18 @@ public class ControladorS3 {
             System.out.println("Objetos no bucket " + bucketName + ":");
             for (S3Object object : objects) {
                 System.out.println("- " + object.key());
-          if(object.key().contains("b3_stocks_1994_2020")){
-            achou = true;
-            setNomeObjeto(object.key().toString());
-          }
+                if (object.key().contains("b3_stocks_1994_2020")) {
+                    achou = true;
+                    setNomeObjeto(object.key().toString());
+                }
 
-            if(!(object.key().contains("b3_stocks_1994_2020"))) {
-                System.out.println("Excluindo arquivos antes de iniciar o processo");
-                excluirArquivos(object.key().toString());
-                 }
-             }
-            if(achou == true){
-                try{
+                if (!(object.key().contains("b3_stocks_1994_2020"))) {
+                    System.out.println("Excluindo arquivos antes de iniciar o processo");
+                    excluirArquivos(object.key().toString());
+                }
+            }
+            if (achou == true) {
+                try {
                     GetObjectRequest getObjectRequest = GetObjectRequest.builder()
                             .bucket(bucketName)
                             .key(getNomeObjeto())
@@ -66,43 +66,42 @@ public class ControladorS3 {
                     InputStream inputStream = s3Client.getObject(getObjectRequest, ResponseTransformer.toInputStream());
                     Files.copy(inputStream, new File(getNomeObjeto()).toPath());
                     System.out.println("Arquivo baixado: " + getNomeObjeto());
-                    log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao fazer o dowload do arquivo \n");
+                    log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao fazer o dowload do arquivo \n");
                     ler.extrairAcoes(getNomeObjeto());
-                }catch (Exception e ){
-                    log.gardaLog("Alerta" , dataAtual.format(formatter), "Arquivo já instalado, continuando o processo \n");
+                } catch (Exception e) {
+                    log.gardaLog("Alerta", dataAtual.format(formatter), "Arquivo já instalado, continuando o processo \n");
                     System.out.println("Arquivo já existente! Continuando o processo");
                     ler.extrairAcoes(getNomeObjeto());
                 }
-            }
-                else {
-                System.err.println("Erro ao baixar objeto no bucket: Arquivo não encontrado " );
-                log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao baixar objeto no bucket: Arquivo não encontrado:\n");
+            } else {
+                System.err.println("Erro ao baixar objeto no bucket: Arquivo não encontrado ");
+                log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao baixar objeto no bucket: Arquivo não encontrado:\n");
             }
 
         } catch (S3Exception e) {
             System.err.println("Erro ao listar objetos no bucket: " + e.getMessage());
-            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao listar objetos no bucket:\n" + e.getMessage());
+            log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao listar objetos no bucket:\n" + e.getMessage());
             return;
         }
 
     }
 
-    public void excluirArquivos(String nome){
-            try {
-                DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                        .bucket(bucketName)
-                        .key(nome)
-                        .build();
-                s3Client.deleteObject(deleteObjectRequest);
+    public void excluirArquivos(String nome) {
+        try {
+            DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(nome)
+                    .build();
+            s3Client.deleteObject(deleteObjectRequest);
 
-                System.out.println("Objeto deletado com sucesso: " + nome);
-            } catch (S3Exception e) {
-                System.err.println("Erro ao deletar objeto: " + e.getMessage());
-            }
+            System.out.println("Objeto deletado com sucesso: " + nome);
+        } catch (S3Exception e) {
+            System.err.println("Erro ao deletar objeto: " + e.getMessage());
+        }
     }
 
 
-    public void subirNovoArquivo(String nomeArquivo){
+    public void subirNovoArquivo(String nomeArquivo) {
         try {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                     .bucket(bucketName)
@@ -123,13 +122,9 @@ public class ControladorS3 {
 
     public void excluirArquivoLocal() {
         try {
-            ListObjectsRequest requisicao = ListObjectsRequest.builder()
-                    .bucket(bucketName)
-                    .build();
-
+            ListObjectsRequest requisicao = ListObjectsRequest.builder().bucket(bucketName).build();
             List<S3Object> objects = s3Client.listObjects(requisicao).contents();
             System.out.println("Limpando arquivos locais com base no bucket " + bucketName + ":");
-
             for (S3Object object : objects) {
                 File arquivo = new File("./" + object.key());
                 if (arquivo.exists()) {
@@ -144,7 +139,6 @@ public class ControladorS3 {
             System.err.println("Erro ao listar objetos no bucket: " + e.getMessage());
         }
     }
-
 
 
 }

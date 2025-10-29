@@ -1,9 +1,6 @@
 package school.sptech;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -25,7 +22,7 @@ public class LeitorExcel {
         GuardaLog log = new GuardaLog(con.getJdbcTemplate());
 
         System.out.println("Iniciando a leitura do arquivo " + dataAtual.format(formatter));
-
+        DataFormatter formatterExcel = new DataFormatter();
         List<Acao> lista = new ArrayList<>();
         Set<String> nomesUnicos = new HashSet<>();
 
@@ -40,7 +37,7 @@ public class LeitorExcel {
                 Cell cell = row.getCell(0);
                 if (cell == null) continue;
 
-                String conteudo = cell.toString();
+                String conteudo = formatterExcel.formatCellValue(cell);
                 String[] partes = conteudo.split(",");
 
                 if (partes.length > 1) {
