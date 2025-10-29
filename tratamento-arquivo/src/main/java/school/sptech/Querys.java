@@ -23,8 +23,8 @@ public class Querys {
 
     public void insereNome(List<Acao> list){
 
-        ConexaoBanco con = new ConexaoBanco();
-        GuardaLog log = new GuardaLog(con.getJdbcTemplate());
+
+        GuardaLog log = new GuardaLog(jdbcTemplate);
 
         LocalDateTime dataAtual = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -36,7 +36,7 @@ public class Querys {
 
         jdbcTemplate.update("SET foreign_key_checks = 0");
         jdbcTemplate.update("TRUNCATE TABLE acoes");
-
+        log.gardaLog("Alerta" , dataAtual.format(formatter),"Iniciando envio para o banco de dados!");
         for(int i = 0; i< list.size() ; i++ ) {
             String ticker = list.get(i).getTicker();
             String data = list.get(i).getData();
@@ -52,6 +52,8 @@ public class Querys {
                     fk = jdbcTemplate.queryForObject("SELECT idEmpresa FROM empresa WHERE ticker = ?", Integer.class, ticker);
                 }catch (Exception e){
                     fk = null;
+                    System.err.println("Erro ao encontrar empresa");
+                    e.getMessage();
                 }
                 if(fk!=null){
                     jdbcTemplate.update("INSERT INTO acoes (dtAtual, precoAbertura, precoFechamento, precoMaisAlto,precoMaisBaixo, volume, fkEmpresa) " + "VALUES (?, ?, ?,?, ?, ?, ?)", data, abertura, fechamento, alta, baixa, volume, fk);
@@ -68,10 +70,6 @@ public class Querys {
             }
         }
         log.gardaLog("Sucesso" , dataAtual.format(formatter),"Sucesso ao guardar ações no banco de dados!");
-
-
-
-
         System.out.println("Sucesso ao guardar as ações no banco de dados!");
         return;
     }

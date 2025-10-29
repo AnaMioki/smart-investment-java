@@ -80,6 +80,5 @@ public class LeitorExcel {
         ConexaoBanco con = new ConexaoBanco();
         Querys exec = new Querys(con.getJdbcTemplate());
         exec.insereNome(list);
-
     }
 }

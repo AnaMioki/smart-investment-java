@@ -19,6 +19,7 @@ public class Query {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss");
         String dataFormatada = dataAtual.format(formatter);
 
+
         System.out.println("\n\nEnviando dados ao banco...");
 
         jdbcTemplate.update("SET foreign_key_checks = 0");

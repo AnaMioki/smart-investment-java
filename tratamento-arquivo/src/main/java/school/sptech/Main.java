@@ -5,7 +5,8 @@ package school.sptech;
 public class Main {
     public static void main(String[] args) {
         S3Controller controller = new S3Controller();
-
+        ConexaoBanco con = new ConexaoBanco();
+        Querys exec = new Querys(con.getJdbcTemplate());
         controller.baixarArquivo();
     }
 
