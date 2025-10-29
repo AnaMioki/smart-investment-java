@@ -59,9 +59,6 @@ public class LeitorExcel {
 
                 }
 
-                System.out.println("\n\nLendo linha " + row.getRowNum() + " " + dataAtual.format(formatter));
-
-
             }
         }catch (Exception e){
             System.err.println("Erro ao fazer a leitura dos arquivos " + dataAtual.format(formatter));

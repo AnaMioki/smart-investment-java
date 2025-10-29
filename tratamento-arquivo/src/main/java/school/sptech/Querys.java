@@ -54,7 +54,7 @@ public class Querys {
                     fk = null;
                 }
                 if(fk!=null){
-                    jdbcTemplate.update("INSERT INTO acoes (dtAtual, precoAbertura, precoFechamento, precoMaisAlto,precoMaisBaixo, volume, fkEmpresa) " + "VALUES (?, ?, ?,?, ?, ?, ?, ?)", data, abertura, fechamento, alta, baixa, volume, fk);
+                    jdbcTemplate.update("INSERT INTO acoes (dtAtual, precoAbertura, precoFechamento, precoMaisAlto,precoMaisBaixo, volume, fkEmpresa) " + "VALUES (?, ?, ?,?, ?, ?, ?)", data, abertura, fechamento, alta, baixa, volume, fk);
                 }
             } catch (Exception e) {
                 System.err.println(dataAtual + " - Erro ao realizar operação no banco!" );
@@ -68,6 +68,10 @@ public class Querys {
             }
         }
         log.gardaLog("Sucesso" , dataAtual.format(formatter),"Sucesso ao guardar ações no banco de dados!");
+
+
+
+
         System.out.println("Sucesso ao guardar as ações no banco de dados!");
         return;
     }
