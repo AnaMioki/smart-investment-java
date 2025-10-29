@@ -2,9 +2,9 @@ package school.sptech;
 
 public class Main {
     public static void main(String[] args) {
-           ControladorS3 controller = new ControladorS3();
 
-           controller.baixarArquivos();
+        S3Controller controller = new S3Controller();
+        controller.baixarArquivo();
 
 
     }
