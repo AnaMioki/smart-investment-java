@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TratarExcel {
-    private String token = "5c949faa";
+    private String token = "be736140";
 
 
 
@@ -112,8 +112,8 @@ public class TratarExcel {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            String json = response.body();
 
+            String json = response.body();
             Gson gson = new Gson();
 
             if (json.contains("\"error\":true")) {

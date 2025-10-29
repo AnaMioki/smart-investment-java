@@ -138,6 +138,9 @@ public class ControladorS3 {
         } catch (S3Exception e) {
             System.err.println("Erro ao listar objetos no bucket: " + e.getMessage());
         }
+        File arquivo = new File("ListaAcao.xlsx");
+        arquivo.delete();
+        System.out.println("Arquivo local deletado com sucesso: " + arquivo.getName());
     }
 
 

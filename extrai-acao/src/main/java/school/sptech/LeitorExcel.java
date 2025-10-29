@@ -17,12 +17,11 @@ public class LeitorExcel {
     public List<Acao> extrairAcoes(String nomeArquivo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dataAtual = LocalDateTime.now();
-
+        DataFormatter formatter2 = new DataFormatter();
         ConexaoBanco con = new ConexaoBanco();
         GuardaLog log = new GuardaLog(con.getJdbcTemplate());
 
         System.out.println("Iniciando a leitura do arquivo " + dataAtual.format(formatter));
-        DataFormatter formatterExcel = new DataFormatter();
         List<Acao> lista = new ArrayList<>();
         Set<String> nomesUnicos = new HashSet<>();
 
@@ -37,7 +36,7 @@ public class LeitorExcel {
                 Cell cell = row.getCell(0);
                 if (cell == null) continue;
 
-                String conteudo = formatterExcel.formatCellValue(cell);
+                String conteudo = formatter2.formatCellValue(cell);
                 String[] partes = conteudo.split(",");
 
                 if (partes.length > 1) {
@@ -47,7 +46,7 @@ public class LeitorExcel {
                         lista.add(new Acao(nome));
                     }
                 }
-
+                workbook.close();
                 if (row.getRowNum() % 1000 == 0) {
                     System.out.println("Lendo linha " + row.getRowNum() + " - " + LocalDateTime.now().format(formatter));
                 }
