@@ -69,8 +69,7 @@ public class ControladorS3 {
                     log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao fazer o dowload do arquivo \n");
                     ler.extrairAcoes(getNomeObjeto());
                 }catch (Exception e ){
-                    log.gardaLog("Sucesso" , dataAtual.format(formatter), "Arquivo já instalado, continuando o processo \n");
-                    ler.extrairAcoes(getNomeObjeto());
+                    log.gardaLog("Alerta" , dataAtual.format(formatter), "Arquivo já instalado, continuando o processo \n");
                     System.out.println("Arquivo já existente! Continuando o processo");
                     ler.extrairAcoes(getNomeObjeto());
                 }
@@ -113,12 +112,39 @@ public class ControladorS3 {
             File file = new File(nomeArquivo);
             s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
 
+            excluirArquivoLocal();
             System.out.println("Arquivo '" + file.getName() + "' enviado com sucesso com o nome: " + nomeArquivo);
 
-            file.delete();
         } catch (S3Exception e) {
             System.err.println("Erro ao fazer upload do arquivo: " + e.getMessage());
         }
     }
+
+
+    public void excluirArquivoLocal() {
+        try {
+            ListObjectsRequest requisicao = ListObjectsRequest.builder()
+                    .bucket(bucketName)
+                    .build();
+
+            List<S3Object> objects = s3Client.listObjects(requisicao).contents();
+            System.out.println("Limpando arquivos locais com base no bucket " + bucketName + ":");
+
+            for (S3Object object : objects) {
+                File arquivo = new File("./" + object.key());
+                if (arquivo.exists()) {
+                    if (arquivo.delete()) {
+                        System.out.println("Arquivo local deletado com sucesso: " + arquivo.getName());
+                    } else {
+                        System.err.println("Falha ao deletar arquivo local: " + arquivo.getName());
+                    }
+                }
+            }
+        } catch (S3Exception e) {
+            System.err.println("Erro ao listar objetos no bucket: " + e.getMessage());
+        }
+    }
+
+
 
 }

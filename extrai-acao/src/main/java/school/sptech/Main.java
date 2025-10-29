@@ -11,11 +11,7 @@ public class Main {
 
         ControladorS3 controller = new ControladorS3();
 
-        //Iniciando processo
-
         controller.baixarArquivos();
 
-//        LeitorExcel exec = new LeitorExcel();
-//        exec.extrairAcoes("/home/ubuntu/proj/smart-investment-java/extrai-acao/b3_stocks_1994_2020.xlsx");
     }
 }
