@@ -39,8 +39,6 @@ public class Query {
 
                 jdbcTemplate.update("INSERT INTO empresa (nome, setor, logo, ticker) VALUES (?, ?, ?, ?)",
                         nome, setor, logo, ticker);
-
-                System.out.println(dataFormatada + " - Operação concluída! Ação: " + nome);
             }
 
             File arquivo = new File(nomeArquivo);

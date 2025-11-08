@@ -14,9 +14,12 @@ public class ConexaoBanco {
         basicDataSource.setUsername(System.getenv("DB_USER"));
         basicDataSource.setPassword(System.getenv("DB_PASSWORD"));
 
+        basicDataSource.setDefaultAutoCommit(false);
         this.basicDataSource = basicDataSource;
         this.jdbcTemplate = new JdbcTemplate(basicDataSource);
     }
+
+
 
     public BasicDataSource getBasicDataSource() {
         return basicDataSource;
@@ -26,3 +29,5 @@ public class ConexaoBanco {
         return jdbcTemplate;
     }
 }
+
+
