@@ -9,24 +9,19 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Querys {
 
     private final JdbcTemplate jdbcTemplate;
+    private ConexaoBanco con;
 
-
-    public Querys(JdbcTemplate jdbcTemplate) {
+    public Querys(JdbcTemplate jdbcTemplate, ConexaoBanco con) {
         this.jdbcTemplate = jdbcTemplate;
-
+        this.con = con;
     }
 
     public void insereNome(List<Acao> list) {
-
-
         GuardaLog log = new GuardaLog(jdbcTemplate);
 
         LocalDateTime dataAtual = LocalDateTime.now();
@@ -43,31 +38,32 @@ public class Querys {
         List<Acao> acoesPerformaticas = new ArrayList<>();
         List<Integer> fksPerformaticas = new ArrayList<>();
         Integer i = 0;
+
+
+        List<Empresa> listFKS = jdbcTemplate.query("SELECT idEmpresa as id, ticker FROM Empresa;", new BeanPropertyRowMapper<>(Empresa.class));
+
+        HashMap<String, Integer> mapeamentoDeIds = new HashMap<>();
+
+        for (Empresa listFK : listFKS) {
+            mapeamentoDeIds.put(listFK.getTicker(), listFK.getId());
+        }
+
+        System.out.println(Arrays.asList(listFKS));
+
+
         for (Acao acao : list) {
             acoesPerformaticas.add(acao);
             i++;
             String ticker = acao.getTicker();
 
             try {
-                Integer fk = 1;
-                fksPerformaticas.add(1);
-//                try {
-//                    fk = jdbcTemplate.queryForObject("SELECT idEmpresa FROM empresa WHERE ticker = ?", Integer.class, ticker);
-//                    fksPerformaticas.add(fk);
-//                } catch (Exception e) {
-//                    fk = null;
-//                    System.err.println("Erro ao encontrar empresa");
-//                    e.getMessage();
-//                }
-                if (fk != null) {
                     if (i % 10000 == 0) {
-                        carregarLote(acoesPerformaticas, fksPerformaticas);
+                        carregarLote(acoesPerformaticas, mapeamentoDeIds);
                         acoesPerformaticas.clear();
                         fksPerformaticas.clear();
                         System.out.println("Carregando ações..." + i);
                     }
                     // jdbcTemplate.update("INSERT INTO acoes (dtAtual, precoAbertura, precoFechamento, precoMaisAlto,precoMaisBaixo, volume, fkEmpresa) " + "VALUES (?, ?, ?,?, ?, ?, ?)", data, abertura, fechamento, alta, baixa, volume, fk);
-                }
             } catch (Exception e) {
                 System.err.println(dataAtual + " - Erro ao realizar operação no banco!");
                 System.err.println("Ação: " + acao.getTicker());
@@ -76,29 +72,42 @@ public class Querys {
                 log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao guardar a ação: " + list.get(i).getTicker() + "\n " + e.getMessage());
             }
         }
-        carregarLote(acoesPerformaticas, fksPerformaticas);
+        carregarLote(acoesPerformaticas, mapeamentoDeIds);
+        System.out.println("Carregando ações..." + i);
         log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao guardar ações no banco de dados!");
         System.out.println("Sucesso ao guardar as ações no banco de dados!");
         return;
     }
 
-    public void carregarLote(List<Acao> acoes, List<Integer> fks) {
-        List<Object[]> tratada = new ArrayList<>();
-        String sql = "INSERT INTO acoes (dtAtual, precoAbertura, precoFechamento, precoMaisAlto,precoMaisBaixo, volume, fkEmpresa) " + "VALUES (?, ?, ?,?, ?, ?, ?)";
-        for (int i = 0; i < acoes.size(); i++) {
-            Object[] valores = new Object[]{
-                    acoes.get(i).getData(),
-                    acoes.get(i).getAbertura(),
-                    acoes.get(i).getFechamento(),
-                    acoes.get(i).getAlta(),
-                    acoes.get(i).getBaixa(),
-                    acoes.get(i).getVolume(),
-                    fks.get(i)
-            };
-            tratada.add(valores);
+    public void carregarLote(List<Acao> acoes, Map<String, Integer> fks) {
+        String sql = "INSERT INTO acoes " +
+                "(dtAtual, precoAbertura, precoFechamento, precoMaisAlto, precoMaisBaixo, volume, fkEmpresa) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (var conexao = con.getBasicDataSource().getConnection();
+             var ps = conexao.prepareStatement(sql)) {
+
+            // 🔹 Desativa autocommit apenas nesta transação
+            conexao.setAutoCommit(false);
+
+            for (int i = 0; i < acoes.size(); i++) {
+                Acao a = acoes.get(i);
+                ps.setObject(1, a.getData());
+                ps.setDouble(2, a.getAbertura());
+                ps.setDouble(3, a.getFechamento());
+                ps.setDouble(4, a.getAlta());
+                ps.setDouble(5, a.getBaixa());
+                ps.setDouble(6, a.getVolume());
+                ps.setInt(7, fks.get(a.getTicker()));
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+            conexao.commit(); // 🔹 Confirma a transação
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("❌ Erro ao inserir lote: " + e.getMessage());
         }
-
-        jdbcTemplate.batchUpdate(sql, tratada);
     }
-
 }

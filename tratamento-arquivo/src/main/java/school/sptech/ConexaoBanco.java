@@ -14,7 +14,7 @@ public class ConexaoBanco {
         basicDataSource.setUsername(System.getenv("DB_USER"));
         basicDataSource.setPassword(System.getenv("DB_PASSWORD"));
 
-        basicDataSource.setDefaultAutoCommit(false);
+        basicDataSource.setAutoCommitOnReturn(false);
         this.basicDataSource = basicDataSource;
         this.jdbcTemplate = new JdbcTemplate(basicDataSource);
     }

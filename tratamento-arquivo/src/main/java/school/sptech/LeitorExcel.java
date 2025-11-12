@@ -78,7 +78,7 @@ public class LeitorExcel {
 
     private void conexaoBanco(List<Acao> list) {
         ConexaoBanco con = new ConexaoBanco();
-        Querys exec = new Querys(con.getJdbcTemplate());
+        Querys exec = new Querys(con.getJdbcTemplate(), con);
         exec.insereNome(list);
     }
 }

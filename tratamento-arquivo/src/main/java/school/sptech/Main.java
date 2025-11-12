@@ -7,7 +7,7 @@ public class Main {
         S3Controller controller = new S3Controller();
         ConexaoBanco con = new ConexaoBanco();
 
-        Querys exec = new Querys(con.getJdbcTemplate());
+        Querys exec = new Querys(con.getJdbcTemplate(), con);
         controller.baixarArquivo();
     }
 
