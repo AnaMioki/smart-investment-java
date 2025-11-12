@@ -22,7 +22,7 @@ public class ControladorS3 {
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private LocalDateTime dataAtual = LocalDateTime.now();
     private String nomeObjeto;
-    private String bucketName = System.getenv("BUCKET-NAME");
+    private String bucketName = System.getenv("BUCKET_NAME");
 
     public String getNomeObjeto() {
         return nomeObjeto;

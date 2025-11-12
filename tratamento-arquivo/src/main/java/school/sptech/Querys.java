@@ -40,7 +40,7 @@ public class Querys {
         Integer i = 0;
 
 
-        List<Empresa> listFKS = jdbcTemplate.query("SELECT idEmpresa as id, ticker FROM Empresa;", new BeanPropertyRowMapper<>(Empresa.class));
+        List<Empresa> listFKS = jdbcTemplate.query("SELECT idEmpresa as id, ticker FROM empresa;", new BeanPropertyRowMapper<>(Empresa.class));
 
         HashMap<String, Integer> mapeamentoDeIds = new HashMap<>();
 
