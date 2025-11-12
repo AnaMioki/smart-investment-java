@@ -17,7 +17,7 @@ import java.util.List;
 
 public class S3Controller {
 
-    private final String bucketName = "smart-investment-bucket";
+    private final String bucketName = System.getenv("BUCKET-NAME");
     private final S3Client s3Client = new S3Provider().getS3Client();
     private String nomeObjeto;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
