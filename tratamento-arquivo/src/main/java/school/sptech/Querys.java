@@ -48,16 +48,13 @@ public class Querys {
             mapeamentoDeIds.put(listFK.getTicker(), listFK.getId());
         }
 
-        System.out.println(Arrays.asList(listFKS));
-
-
         for (Acao acao : list) {
             acoesPerformaticas.add(acao);
             i++;
             String ticker = acao.getTicker();
 
             try {
-                    if (i % 10000 == 0) {
+                    if (i % 50000 == 0) {
                         carregarLote(acoesPerformaticas, mapeamentoDeIds);
                         acoesPerformaticas.clear();
                         fksPerformaticas.clear();
