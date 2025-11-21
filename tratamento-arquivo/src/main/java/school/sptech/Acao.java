@@ -1,7 +1,9 @@
 package school.sptech;
 
+import java.time.LocalDate;
+
 public class Acao {
-    private String data;
+    private LocalDate data;
     private String ticker;
     private Double Abertura;
     private Double Fechamento;
@@ -9,7 +11,7 @@ public class Acao {
     private Double Baixa;
     private Double volume;
 
-    public Acao(String data, String ticker, Double abertura, Double fechamento, Double alta, Double baixa, Double volume) {
+    public Acao(LocalDate data, String ticker, Double abertura, Double fechamento, Double alta, Double baixa, Double volume) {
         this.data = data;
         this.ticker = ticker;
         Abertura = abertura;
@@ -22,11 +24,11 @@ public class Acao {
     public Acao() {
     }
 
-    public String getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

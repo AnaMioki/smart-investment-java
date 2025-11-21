@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class TratarExcel {
-    private String token = "be736140";
+    private String token = System.getenv("TOKEN_API");
 
 
 

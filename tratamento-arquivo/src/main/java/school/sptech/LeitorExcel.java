@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class LeitorExcel {
                     String[] partes = conteudo.split(",");
 
 
-                        String data = partes[0].toString();
+                        LocalDate data = LocalDate.parse(partes[0].toString());
                         String ticker = partes[1].toString().trim().replace(" ", "");
                         Double abertura = Double.parseDouble(partes[2].replace(",", "."));
                         Double fechamento =Double.parseDouble(partes[3].replace(",", "."));
