@@ -6,14 +6,11 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ControladorS3 {
     private S3Client s3Client = new S3Provider().getS3Client();
@@ -140,6 +137,8 @@ public class ControladorS3 {
         }
         File arquivo = new File("ListaAcao.xlsx");
         arquivo.delete();
+        ChamarSlack slack = new ChamarSlack();
+        slack.tratarMensagem("---Finzalizando execução do arquivo: Extrai-acao ----");
         System.out.println("Arquivo local deletado com sucesso: " + arquivo.getName());
     }
 

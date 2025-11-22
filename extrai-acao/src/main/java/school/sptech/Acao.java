@@ -8,7 +8,8 @@ public class Acao {
     public Acao(String nome) {
         this.nome = nome;
     }
-    public Acao(){
+
+    public Acao() {
     }
 
     public String getNome() {

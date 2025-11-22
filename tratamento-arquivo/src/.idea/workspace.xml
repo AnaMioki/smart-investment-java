@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6d314f67-c15f-4ff3-ba31-5a42ce9f7cd6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../carga-temporal/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/controllers/ChamarSlack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/controllers/GeradorHistorico.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/ChamarSlack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Acao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/classes/Acao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/ConexaoBanco.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/controllers/ConexaoBanco.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Dividends.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/classes/Dividends.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Empresa.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/classes/Empresa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Financials.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/classes/Financials.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/GuardaLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/controllers/GuardaLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/InfoAcao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/InfoAcao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/InfoTemporal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/InfoTemporal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Querys.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/Querys.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/S3Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/controllers/S3Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/S3Provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/controllers/S3Provider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/TratarExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../carga-temporal/src/main/java/school/sptech/TratarExcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/Acao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/Acao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/AcaoResumo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/AcaoResumo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/ControladorS3.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/ControladorS3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/CriarExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/CriarExcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/GuardaLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/GuardaLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/LeitorExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/LeitorExcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/Logo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/Logo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/TratarExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../extrai-acao/src/main/java/school/sptech/TratarExcel.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="35q8Ygsr0sGwaiHRy2AK61wcAGv" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Documentos/SPTECH/smart-investment-java/tratamento-arquivo/src"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6d314f67-c15f-4ff3-ba31-5a42ce9f7cd6" name="Changes" comment="" />
+      <created>1763826290834</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1763826290834</updated>
+    </task>
+    <servers />
+  </component>
+</project>

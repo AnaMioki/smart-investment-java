@@ -1,7 +1,5 @@
 package school.sptech;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,8 +23,7 @@ public class TratarExcel {
     private String token = System.getenv("TOKEN_API");
 
 
-
-    public void tratamentoDados(String nomeArquivo){
+    public void tratamentoDados(String nomeArquivo) {
         LocalDateTime dataAtual = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -34,9 +31,8 @@ public class TratarExcel {
         GuardaLog log = new GuardaLog(con.getJdbcTemplate());
 
 
-
-        try(InputStream arquivo = new FileInputStream(nomeArquivo);
-            Workbook workbook = new XSSFWorkbook(arquivo)){
+        try (InputStream arquivo = new FileInputStream(nomeArquivo);
+             Workbook workbook = new XSSFWorkbook(arquivo)) {
 
             Sheet sheet = workbook.getSheetAt(0);
 
@@ -45,18 +41,17 @@ public class TratarExcel {
             for (Row row : sheet) {
 
 
-                if(row.getRowNum() % 100 == 0){
+                if (row.getRowNum() % 100 == 0) {
                     System.out.println("Recebendo ações: " + row.getRowNum());
                 }
 
                 Cell cell = row.getCell(0);
 
-                if(cell == null) continue;
+                if (cell == null) continue;
 
                 String conteudo = cell.toString();
 
                 AcaoResumo resultado = infos(token, conteudo);
-
 
 
                 Cell cellNome = row.createCell(1);
@@ -82,16 +77,15 @@ public class TratarExcel {
             workbook.write(arquivoSaida);
             arquivoSaida.close();
             System.out.println("Processo de modificação terminado!" + LocalDateTime.now().format(formatter));
-            log.gardaLog("Sucesso" , dataAtual.format(formatter), "Sucesso ao modificar o arquivo!");
+            log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao modificar o arquivo!");
             ControladorS3 controladorS3 = new ControladorS3();
             controladorS3.subirNovoArquivo(nomeArquivo);
             return;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Erro ao fazer a leitura do arquivo " + LocalDateTime.now().format(formatter));
             e.printStackTrace();
-            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
+            log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao fazer a leitura do arquivo! \n" + e.getMessage());
         }
-
 
 
     }
@@ -125,11 +119,10 @@ public class TratarExcel {
             }
 
 
-
             JsonObject root = JsonParser.parseString(json).getAsJsonObject();
             JsonObject results = root.getAsJsonObject("results");
             JsonObject acaoJson = results.getAsJsonObject(ticker);
-            acao = gson.fromJson(acaoJson,AcaoResumo.class );
+            acao = gson.fromJson(acaoJson, AcaoResumo.class);
 
             return acao;
 
@@ -140,7 +133,6 @@ public class TratarExcel {
 
         return acao;
     }
-
 
 
 }

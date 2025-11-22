@@ -5,9 +5,17 @@ public class AcaoResumo {
     private String sector;
     private Logo logo;
 
-    public String getName() { return name; }
-    public String getSector() { return sector; }
-    public Logo getLogo() { return logo; }
+    public String getName() {
+        return name;
+    }
+
+    public String getSector() {
+        return sector;
+    }
+
+    public Logo getLogo() {
+        return logo;
+    }
 
     @Override
     public String toString() {

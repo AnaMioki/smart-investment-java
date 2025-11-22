@@ -1,4 +1,4 @@
-package school.sptech;
+package school.sptech.controllers;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +18,6 @@ public class ConexaoBanco {
         this.basicDataSource = basicDataSource;
         this.jdbcTemplate = new JdbcTemplate(basicDataSource);
     }
-
 
 
     public BasicDataSource getBasicDataSource() {

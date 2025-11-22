@@ -73,6 +73,8 @@ public class Querys {
         System.out.println("Carregando ações..." + i);
         log.gardaLog("Sucesso", dataAtual.format(formatter), "Sucesso ao guardar ações no banco de dados!");
         System.out.println("Sucesso ao guardar as ações no banco de dados!");
+        ChamarSlack slack = new ChamarSlack();
+        slack.tratarMensagem("---Finalizando execução do arquivo: Tratamento-arquivo---");
         return;
     }
 

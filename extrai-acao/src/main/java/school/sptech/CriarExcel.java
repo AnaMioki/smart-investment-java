@@ -1,11 +1,8 @@
 package school.sptech;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -17,7 +14,7 @@ import java.util.List;
 
 public class CriarExcel {
 
-    private  String fileName = "ListaAcao.xlsx";
+    private String fileName = "ListaAcao.xlsx";
 
     public void criarExcel(List<Acao> lista) {
         ConexaoBanco con = new ConexaoBanco();
@@ -47,11 +44,11 @@ public class CriarExcel {
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro ao criar/editar o arquivo!");
-            log.gardaLog("Erro" , dataAtual.format(formatter), "Erro ao fazer a criação do arquivo! \n" + e.getMessage());
+            log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao fazer a criação do arquivo! \n" + e.getMessage());
         }
     }
 
-    public void fazerTratamento(String nomeArquivo){
+    public void fazerTratamento(String nomeArquivo) {
         TratarExcel exec = new TratarExcel();
         exec.tratamentoDados(nomeArquivo);
         return;

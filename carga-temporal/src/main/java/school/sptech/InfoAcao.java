@@ -1,7 +1,8 @@
 package school.sptech;
 
-public class InfoAcao
-{
+import school.sptech.classes.Financials;
+
+public class InfoAcao {
     private Double price;
     private String symbol;
     private Double market_cap;

@@ -1,4 +1,4 @@
-package school.sptech;
+package school.sptech.controllers;
 
 import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;

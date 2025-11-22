@@ -57,5 +57,8 @@ public class Query {
             System.err.println("Mensagem: " + e.getMessage());
             e.printStackTrace();
         }
+
+        ChamarSlack slack = new ChamarSlack();
+        slack.tratarMensagem("--Finalizando execução do arquivo: Carga-empresa-banco---");
     }
 }

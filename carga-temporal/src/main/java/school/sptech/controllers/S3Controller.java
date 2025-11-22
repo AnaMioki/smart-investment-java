@@ -1,5 +1,6 @@
-package school.sptech;
+package school.sptech.controllers;
 
+import school.sptech.TratarExcel;
 import software.amazon.awssdk.core.sync.ResponseTransformer;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
@@ -23,12 +24,12 @@ public class S3Controller {
     private String nomeObjeto;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final LocalDateTime dataAtual = LocalDateTime.now();
+    private ConexaoBanco con = new ConexaoBanco();
+    private GuardaLog log = new GuardaLog(con.getJdbcTemplate());
 
 
-
-    public void baixarArquivo(){
+    public void baixarArquivo() {
         boolean arquivoEncontrado = false;
-
         try {
             ListObjectsRequest requisicao = ListObjectsRequest.builder()
                     .bucket(bucketName)
@@ -52,12 +53,12 @@ public class S3Controller {
                         }
 
                         System.out.println("Arquivo baixado: " + nomeObjeto);
-                        //log.gardaLog("Sucesso", dataAtual.format(formatter), "Download concluído: " + nomeObjeto);
+                        log.gardaLog("Sucesso", dataAtual.format(formatter), "Download concluído: " + nomeObjeto);
                     } else {
                         System.out.println("Arquivo já existente localmente, pulando download: " + nomeObjeto);
-                        //log.gardaLog("Alerta", dataAtual.format(formatter), "Arquivo já existente, continuando o processo: " + nomeObjeto);
+                        log.gardaLog("Alerta", dataAtual.format(formatter), "Arquivo já existente, continuando o processo: " + nomeObjeto);
                     }
-                   // exec.extrairAcoes(nomeObjeto);
+
                     arquivoEncontrado = true;
                     break;
                 }
@@ -65,16 +66,16 @@ public class S3Controller {
 
             if (!arquivoEncontrado) {
                 System.err.println("Nenhum arquivo contendo 'ListaAcao' foi encontrado no bucket.");
-                //log.gardaLog("Erro", dataAtual.format(formatter), "Nenhum arquivo 'ListaAcao' encontrado no bucket.");
+                log.gardaLog("Erro", dataAtual.format(formatter), "Nenhum arquivo 'ListaAcao' encontrado no bucket.");
                 return;
             }
 
         } catch (S3Exception e) {
             System.err.println("Erro ao acessar o bucket S3: " + e.getMessage());
-            //log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao acessar bucket S3: " + e.getMessage());
+            log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao acessar bucket S3: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Erro ao processar arquivo: " + e.getMessage());
-            //log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao processar arquivo: " + e.getMessage());
+            log.gardaLog("Erro", dataAtual.format(formatter), "Erro ao processar arquivo: " + e.getMessage());
         }
         TratarExcel tratarExcel = new TratarExcel();
         tratarExcel.lerExcel(nomeObjeto);
@@ -96,4 +97,4 @@ public class S3Controller {
     }
 
 
-    }
+}
