@@ -74,7 +74,6 @@ public class Querys {
         log.gardaLog("Sucesso", dataAtual.format(formatter),
                 "Sucesso ao guardar ações no banco de dados!");
 
-        controller.excluirArquivo();
         chamarSlack.tratarMensagem("---Arquivo de execução finalizado com sucesso!: carga-temporal ---");
     }
 
