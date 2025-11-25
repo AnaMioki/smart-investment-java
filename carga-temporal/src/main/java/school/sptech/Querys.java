@@ -81,7 +81,7 @@ public class Querys {
 
     public void carregarLote(List<InfoTemporal> infos, Map<String, Integer> fks) {
         String sql = "INSERT INTO infoTemporal " +
-                "(valorMercado, partrimonioLiquido, patrimonioLiquidoAcao, multiploSetorial, rentabilidadeAnual, infoTemporalcol, precoSobreValorPatrimonial, EBTDA, DRE, fkEmpresa, ano) " +
+                "(valorMercado, patrimonioLiquido, patrimonioLiquidoAcao, multiploSetorial, rentabilidadeAnual, infoTemporalcol, precoSobreValorPatrimonial, EBITDA, DRE, fkEmpresa, ano) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (var conexao = con.getBasicDataSource().getConnection();
